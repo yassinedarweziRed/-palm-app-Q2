@@ -95,6 +95,19 @@ export default async function Page({
                     <div className="mt-1 max-w-md text-neutral-500">
                       {e.summary}
                     </div>
+                    {/* Original message tucked in a native <details> so the row
+                        stays compact but the consultant can always check the
+                        source wording — no JS or extra state needed. */}
+                    {e.raw_text && (
+                      <details className="mt-2 max-w-md">
+                        <summary className="cursor-pointer text-xs text-[#183028] hover:underline">
+                          Original message
+                        </summary>
+                        <p className="mt-1 whitespace-pre-wrap rounded-md bg-neutral-50 p-2 text-xs text-neutral-600">
+                          {e.raw_text}
+                        </p>
+                      </details>
+                    )}
                   </td>
                   <td className="px-4 py-4 text-neutral-600">
                     <div>{e.location || "—"}</div>
