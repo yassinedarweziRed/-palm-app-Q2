@@ -34,7 +34,9 @@ Trade-offs are called out in comments in `src/lib/supabase.ts`, `src/lib/types.t
 
 ```bash
 npm install
-cp .env.example .env.local   # then fill in your Supabase URL + service-role key
+# create .env.local with your Supabase URL + service-role key:
+#   SUPABASE_URL=...
+#   SUPABASE_SERVICE_ROLE_KEY=...
 npm run dev
 ```
 

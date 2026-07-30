@@ -5,6 +5,10 @@ import { Filters } from "./Filters";
 import { StatusSelect } from "./StatusSelect";
 import { AssigneeSelect } from "./AssigneeSelect";
 
+// This page reads live data on every request (filters + DB), so it's never
+// prerendered at build time — which also keeps the Supabase call out of the build.
+export const dynamic = "force-dynamic";
+
 // searchParams is a promise in this Next.js version — must be awaited.
 type SearchParams = Promise<{ status?: string; assignee?: string }>;
 
