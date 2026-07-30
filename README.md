@@ -24,6 +24,12 @@ A lightweight internal portal where consultants work the enquiries produced by t
 
 Trade-offs are called out in comments in `src/lib/supabase.ts`, `src/lib/types.ts`, `src/app/actions.ts`, and `src/app/Filters.tsx`.
 
+## Left out vs. kept
+
+**Left out: authentication.** There's no login. It's an internal tool for a small, non-technical team behind a shared link, and adding auth first would have slowed the handoff without changing what consultants do day to day. Identity (who's "me") is a dropdown for now. Auth is the obvious next addition.
+
+**Kept: the original message next to the AI summary.** Each row shows the LLM-generated summary with an "Original message" toggle holding the raw enquiry. The extraction step can misread or drop a detail, so consultants can always see exactly what the AI produced versus what the client actually said, and catch any mistake before acting on it. For a tool that turns messy inbound into records people trust, that safety check was non-negotiable.
+
 ## Run locally
 
 ```bash
