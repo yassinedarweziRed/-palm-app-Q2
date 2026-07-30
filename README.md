@@ -24,12 +24,6 @@ A lightweight internal portal where consultants work the enquiries produced by t
 
 Trade-offs are called out in comments in `src/lib/supabase.ts`, `src/lib/types.ts`, `src/app/actions.ts`, and `src/app/Filters.tsx`.
 
-## Left out vs. kept
-
-**Left out: authentication.** There's no login. It's an internal tool for a small, non-technical team behind a shared link, and adding auth first would have slowed the handoff without changing what consultants do day to day. Identity (who's "me") is a dropdown for now. Auth is the obvious next addition.
-
-**Kept: per-row status changes with an instant refresh, plus status/consultant filters.** This is the one thing the team does every day, spotting their enquiries and moving them along. The portal is pointless without it, so it got the attention.
-
 ## Run locally
 
 ```bash
