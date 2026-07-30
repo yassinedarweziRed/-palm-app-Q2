@@ -1,0 +1,52 @@
+# Marlow & Finch — Enquiry Portal
+
+A lightweight internal portal where consultants work the enquiries produced by the intake automation. They see incoming enquiries, filter to the ones that matter to them, assign an owner, and move each one along, without ever touching the automation.
+
+**Live:** _add Vercel link here_
+
+## Stack
+
+- Next.js (App Router) + TypeScript + Tailwind
+- Supabase / Postgres
+- Deployed on Vercel
+
+## What it does
+
+- Lists every enquiry, newest first.
+- Filters by **status** and **assigned consultant** (filters live in the URL, so a filtered view is shareable and the back button works).
+- Change an enquiry's **status** or **assigned consultant** from a dropdown on the row. The change saves and the list updates immediately.
+
+## How it's wired
+
+- The page is a Server Component that reads the filters from the URL and queries Postgres directly (filtering in the DB, not in the browser).
+- Status/assignee changes go through **Server Actions** using the Supabase **service-role key**, which stays server-side only. It's an internal tool behind a shared link, so this was simpler than the anon key + Row Level Security: one place to reason about access, no policies to maintain.
+- After a write, `revalidatePath('/')` re-renders the list in the same request so the consultant sees the change with no manual refresh.
+
+Trade-offs are called out in comments in `src/lib/supabase.ts`, `src/lib/types.ts`, `src/app/actions.ts`, and `src/app/Filters.tsx`.
+
+## Left out vs. kept
+
+**Left out: authentication.** There's no login. It's an internal tool for a small, non-technical team behind a shared link, and adding auth first would have slowed the handoff without changing what consultants do day to day. Identity (who's "me") is a dropdown for now. Auth is the obvious next addition.
+
+**Kept: per-row status changes with an instant refresh, plus status/consultant filters.** This is the one thing the team does every day, spotting their enquiries and moving them along. The portal is pointless without it, so it got the attention.
+
+## Run locally
+
+```bash
+npm install
+cp .env.example .env.local   # then fill in your Supabase URL + service-role key
+npm run dev
+```
+
+Set up the database in Supabase (SQL editor):
+
+```
+schema.sql   # creates the enquiries table
+seed.sql     # inserts the three Question 1 records
+```
+
+## Deploy (Vercel)
+
+1. Push this repo to GitHub and import it in Vercel.
+2. Add env vars `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in the Vercel project settings.
+3. Deploy, then drop the live URL at the top of this README.
